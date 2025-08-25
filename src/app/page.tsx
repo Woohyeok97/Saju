@@ -7,8 +7,10 @@ import { CheongwolSaju } from '@/types/saju';
 // constants
 import { SAJU_ROW_HEADERS } from '@/constants';
 
+// 피그마 프레임 width & height
 const FIGMA_FRAME = { width: 375, height: 2081 };
 
+// 피그마 말풍선 대사 rect
 const FIGMA_BUBBLES = [
   {
     left: 64,
@@ -35,20 +37,21 @@ const FIGMA_BUBBLES = [
 export const dynamic = 'force-dynamic';
 
 export default async function CheongwolSajuPage() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  const response = await fetch(`${baseUrl}/api/cheongwol-saju`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cheongwol-saju`); // 사용자 정보 & 사주 결과 API 요청
   const data: CheongwolSaju = await response.json();
 
   return (
     <main className="relative mx-auto max-w-md min-w-[275px] bg-[#F3F2EF]">
+      {/* 청월아씨 사주 결과 인트로 */}
       <div
         className="relative"
-        style={{ aspectRatio: `${FIGMA_FRAME.width}/${FIGMA_FRAME.height}` }}
+        style={{ aspectRatio: `${FIGMA_FRAME.width}/${FIGMA_FRAME.height}` }} // 피그마 프레임 비율로 height 적용
       >
         <Image src="/cheongwol_intro.png" alt="intro" fill />
 
+        {/* 말풍선 대사 */}
         {FIGMA_BUBBLES.map((bubble, index) => {
-          const lines = bubble.content(data.myInfo.name);
+          const lines = bubble.content(data.myInfo.name); // 말풍선 대사 배열
 
           return (
             <BubbleTextLayout figmaRect={bubble} figmaFrame={FIGMA_FRAME} key={index}>
@@ -62,9 +65,10 @@ export default async function CheongwolSajuPage() {
         })}
       </div>
 
+      {/* 청월아씨 사주 결과 테이블 */}
       <div
         className="absolute w-full bg-gradient-to-pbx-3 px-3"
-        style={{ top: `${(1380 / FIGMA_FRAME.height) * 100}%` }}
+        style={{ top: `${(1380 / FIGMA_FRAME.height) * 100}%` }} // 피그마 테이블 위치를 변환하여 적용
       >
         <SajuTable myInfo={data.myInfo} mySaju={data.mySaju} rowHeaders={SAJU_ROW_HEADERS} />
       </div>

@@ -17,6 +17,17 @@ export interface MyInfo {
 }
 
 // 사용자 사주
+export interface MySaju {
+  yearSky: Sky;
+  yearGround: Ground;
+  monthSky: Sky;
+  monthGround: Ground;
+  daySky: Sky;
+  dayGround: Ground;
+  timeSky: Sky;
+  timeGround: Ground;
+}
+
 interface Sky {
   korean: string;
   chinese: string;
@@ -37,17 +48,6 @@ interface Ground {
   etcSinsal?: string[];
   fiveCircleColor: string;      
   fiveCircleFrontColor: string; 
-}
-
-export interface MySaju {
-  yearSky: Sky;
-  yearGround: Ground;
-  monthSky: Sky;
-  monthGround: Ground;
-  daySky: Sky;
-  dayGround: Ground;
-  timeSky: Sky;
-  timeGround: Ground;
 }
 
 // 청월사주 API 응답 타입

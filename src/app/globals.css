@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* 브레이크 포인트 커스텀 설정 */
   --breakpoint-xs: 320px;
   --breakpoint-sm: 375px;
   --breakpoint-md: 414px;
@@ -22,6 +23,10 @@
     --background: #f2f2f2;
     --foreground: #ededed;
   }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {

@@ -1,7 +1,7 @@
 type FigmaRect = { left: number; top: number; width: number; height: number };
 type FigmaFrame = { width: number; height: number };
 
-// 피그마 Rect 스타일 변환 함수
+// 피그마 Rect 변환 함수
 const getFigmaRectStyle = (rect: FigmaRect, frame: FigmaFrame) => ({
   left: `${(rect.left / frame.width) * 100}%`,
   top: `${(rect.top / frame.height) * 100}%`,
@@ -16,7 +16,7 @@ interface BubbleTextProps {
 }
 
 export default function BubbleTextLayout({ children, figmaRect, figmaFrame }: BubbleTextProps) {
-  const rectStyle = getFigmaRectStyle(figmaRect, figmaFrame);
+  const rectStyle = getFigmaRectStyle(figmaRect, figmaFrame); // 변환된 피그마 Rect 스타일값
   return (
     <div className="absolute" style={rectStyle}>
       {children}

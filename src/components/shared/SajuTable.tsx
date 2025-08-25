@@ -6,6 +6,7 @@ import { MyInfo, MySaju, SajuRowHeader } from '@/types/saju';
 // utils
 import { formatBirth } from '@/utils';
 
+// 사주 테이블 Column 헤더 (변하지않는 상수값)
 const COLUMN_HEADER = {
   time: '時',
   day: '日',
@@ -16,17 +17,19 @@ const COLUMN_HEADER = {
 interface SajuTableProps {
   myInfo: MyInfo;
   mySaju: MySaju;
-  rowHeaders: SajuRowHeader[];
+  rowHeaders: SajuRowHeader[]; // 테이블 row 헤더를 외부에서 props로 주입
 }
 
 export default function SajuTable({ myInfo, mySaju, rowHeaders }: SajuTableProps) {
   return (
     <div className="relative border-[3px] border-[#1B2F49] bg-[#F5F3EC] shadow-md">
+      {/* 테이블 border 장식 */}
       <div className="absolute top-2 h-[1px] w-full bg-[#2B557E]" />
       <div className="absolute bottom-2 h-[1px] w-full bg-[#2B557E]" />
       <div className="absolute right-2 h-full w-[1px] bg-[#2B557E]" />
       <div className="absolute left-2 h-full w-[1px] bg-[#2B557E]" />
 
+      {/* 테이블 헤더 구름 장식 */}
       <div className="absolute w-full flex justify-between px-2 mt-6">
         <div className="relative mt-5 h-[2.375rem] w-[3.5rem]">
           <Image src="/table_left_cloud.png" alt="left_cloud" fill />
@@ -36,6 +39,7 @@ export default function SajuTable({ myInfo, mySaju, rowHeaders }: SajuTableProps
         </div>
       </div>
 
+      {/* 테이블 헤더 사용자 정보 */}
       <div className="mb-8 w-full items-center justify-center p-2 text-center">
         <div className="mb-6 mt-10 flex w-full flex-col items-center justify-center gap-1 text-center">
           <div className="text-center text-sm xs:text-lg">{myInfo.name}님의 사주</div>
@@ -44,7 +48,9 @@ export default function SajuTable({ myInfo, mySaju, rowHeaders }: SajuTableProps
           </div>
         </div>
 
+        {/* 테이블 */}
         <div className="px-3">
+          {/* 테이블 Column 헤더 렌더링 */}
           <div className="grid grid-cols-5 border-b-2 border-r-2 border-black text-xl xs:text-[1.375rem]">
             <div className="border-r-2 border-black" />
             {Object.values(COLUMN_HEADER).map((item, i) => (
@@ -57,6 +63,7 @@ export default function SajuTable({ myInfo, mySaju, rowHeaders }: SajuTableProps
             ))}
           </div>
 
+          {/* 테이블 Row 헤더 렌더링 */}
           {rowHeaders.map(({ label, subLabel, target, field }, index) => (
             <div
               className={`grid grid-cols-5 ${index === 1 ? 'border-b border-b-[#8A8A8A]' : 'border-b-2'} border-r-2 border-black text-sm xs:text-base`}
@@ -64,29 +71,30 @@ export default function SajuTable({ myInfo, mySaju, rowHeaders }: SajuTableProps
             >
               <div className="flex flex-col items-center justify-center border-r-2 border-black">
                 <div
-                  className={`xs:text-sm ${label.length >= 4 ? 'text-[10px] xs:text-[12px]' : 'text-xs'}`}
+                  className={`xs:text-sm ${label.length >= 4 ? 'text-[10px] xs:text-[12px]' : 'text-xs'}`} // label이 4글자 이상인 경우, 폰트 사이즈 조절
                 >
                   {label}
                 </div>
                 <div className="text-[8px] xs:text-[10px] mt-0.5">({subLabel})</div>
               </div>
 
+              {/* 테이블 Cell 렌더링 */}
               {Object.keys(COLUMN_HEADER).map(columnKey => {
-                const key = (columnKey + target) as keyof MySaju;
-                const value = mySaju[key];
-
+                const key = (columnKey + target) as keyof MySaju; // MySaju 필드명
+                const value = mySaju[key]; // MySaju 필드값
                 let content = value?.[field];
+
+                // content가 Array인 경우, 첫번째 요소만 추출
                 if (Array.isArray(content)) {
                   content = content[0];
                 }
-                // console.log(`index: ${i}, content: ${content} key: ${key} field: ${field}`);
 
                 return (
                   <div
                     key={key}
                     className="flex flex-col items-center justify-center bg-white p-1 border-r border-r-[#8a8a8a] min-h-[55.4px]"
                   >
-                    {field === 'chinese' ? (
+                    {field === 'chinese' ? ( // contnet가 한자인 경우
                       <SajuBadge
                         korean={value.korean}
                         chinese={value.chinese}
@@ -94,6 +102,7 @@ export default function SajuTable({ myInfo, mySaju, rowHeaders }: SajuTableProps
                         fiveCircleFrontColor={value.fiveCircleFrontColor}
                       />
                     ) : (
+                      // content가 한자가 아닌 경우
                       <div className="whitespace-nowrap text-sm xs:text-base">
                         {content && <div>劫財</div>}
                         <div className="text-[8px] xs:text-[10px] mt-0.5">
