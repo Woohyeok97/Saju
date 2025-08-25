@@ -35,7 +35,8 @@ const FIGMA_BUBBLES = [
 export const dynamic = 'force-dynamic';
 
 export default async function CheongwolSajuPage() {
-  const response = await fetch('http://localhost:3000/api/cheongwol-saju');
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const response = await fetch(`${baseUrl}/api/cheongwol-saju`);
   const data: CheongwolSaju = await response.json();
 
   return (
