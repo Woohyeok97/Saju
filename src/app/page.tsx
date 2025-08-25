@@ -6,6 +6,8 @@ import SajuTable from '@/components/shared/SajuTable';
 import { CheongwolSaju } from '@/types/saju';
 // constants
 import { SAJU_ROW_HEADERS } from '@/constants';
+// utils
+import { formatShortName } from '@/utils';
 
 // 피그마 프레임 width & height
 const FIGMA_FRAME = { width: 375, height: 2081 };
@@ -18,8 +20,7 @@ const FIGMA_BUBBLES = [
     width: 134,
     height: 72,
     content: (name: string) => {
-      if (name.length >= 2) name = name.slice(1);
-      return ['이제 본격적으로', `${name}님의 사주팔자를`, '분석해볼 차례네요.'];
+      return ['이제 본격적으로', `${formatShortName(name)}님의 사주팔자를`, '분석해볼 차례네요.'];
     },
   },
   {
@@ -28,16 +29,16 @@ const FIGMA_BUBBLES = [
     top: 1027,
     left: 57.88,
     content: (name: string) => {
-      if (name.length >= 2) name = name.slice(1);
-      return [`제가 ${name}님의 사주를`, '보기 쉽게 표로 정리했어요'];
+      return [`제가 ${formatShortName(name)}님의 사주를`, '보기 쉽게 표로 정리했어요'];
     },
   },
 ];
 
-export const dynamic = 'force-dynamic';
-
 export default async function CheongwolSajuPage() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cheongwol-saju`); // 사용자 정보 & 사주 결과 API 요청
+  // 사용자 정보 & 사주 결과 API 요청
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cheongwol-saju`, {
+    cache: 'no-store', // 캐시 해제 -> router handler에서 임시적으로 mock 데이터를 가져오기때문
+  });
   const data: CheongwolSaju = await response.json();
 
   return (
@@ -47,7 +48,7 @@ export default async function CheongwolSajuPage() {
         className="relative"
         style={{ aspectRatio: `${FIGMA_FRAME.width}/${FIGMA_FRAME.height}` }} // 피그마 프레임 비율로 height 적용
       >
-        <Image src="/cheongwol_intro.png" alt="intro" fill />
+        <Image src="/cheongwol_intro.png" alt="intro" fill objectFit="cover" priority />
 
         {/* 말풍선 대사 */}
         {FIGMA_BUBBLES.map((bubble, index) => {
