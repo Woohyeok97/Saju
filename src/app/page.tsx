@@ -1,83 +1,72 @@
 import Image from 'next/image';
+// components
+import BubbleTextLayout from '../components/shared/BubbleTextLayout';
+import SajuTable from '@/components/shared/SajuTable';
+// type & schema
+import { CheongwolSaju } from '@/types/saju';
+// constants
+import { SAJU_ROW_HEADERS } from '@/constants';
 
-export default function Home() {
+const FIGMA_FRAME = { width: 375, height: 2081 };
+
+const FIGMA_BUBBLES = [
+  {
+    left: 64,
+    top: 658,
+    width: 134,
+    height: 72,
+    content: (name: string) => {
+      if (name.length >= 2) name = name.slice(1);
+      return ['이제 본격적으로', `${name}님의 사주팔자를`, '분석해볼 차례네요.'];
+    },
+  },
+  {
+    width: 171,
+    height: 48,
+    top: 1027,
+    left: 57.88,
+    content: (name: string) => {
+      if (name.length >= 2) name = name.slice(1);
+      return [`제가 ${name}님의 사주를`, '보기 쉽게 표로 정리했어요'];
+    },
+  },
+];
+
+export const dynamic = 'force-dynamic';
+
+export default async function CheongwolSajuPage() {
+  const response = await fetch('http://localhost:3000/api/cheongwol-saju');
+  const data: CheongwolSaju = await response.json();
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{' '}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">Save and see your changes instantly.</li>
-        </ol>
+    <main className="relative mx-auto max-w-md min-w-[275px] bg-[#F3F2EF]">
+      <div
+        className="relative"
+        style={{ aspectRatio: `${FIGMA_FRAME.width}/${FIGMA_FRAME.height}` }}
+      >
+        <Image src="/cheongwol_intro.png" alt="intro" fill />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        {FIGMA_BUBBLES.map((bubble, index) => {
+          const lines = bubble.content(data.myInfo.name);
+
+          return (
+            <BubbleTextLayout figmaRect={bubble} figmaFrame={FIGMA_FRAME} key={index}>
+              <p className="w-full h-full text-black whitespace-nowrap flex flex-col items-center justify-center text-center text-xs xs:text-sm sm:text-base md:text-lg">
+                {lines.map((line, index) => (
+                  <span key={index}>{line}</span>
+                ))}
+              </p>
+            </BubbleTextLayout>
+          );
+        })}
+      </div>
+
+      <div
+        className="absolute w-full bg-gradient-to-pbx-3 px-3"
+        style={{ top: `${(1380 / FIGMA_FRAME.height) * 100}%` }}
+      >
+        <SajuTable myInfo={data.myInfo} mySaju={data.mySaju} rowHeaders={SAJU_ROW_HEADERS} />
+      </div>
+    </main>
   );
 }

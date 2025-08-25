@@ -1,0 +1,82 @@
+{
+  "myInfo": {
+    "name": "백우혁",
+    "gender": "MALE",
+    "birthDay": "1997-07-30",
+    "birthTime": "22:30",
+    "frontTime": "22",
+    "birthType": "SOLAR"
+  },
+  "mySaju" : {
+    "yearSky": {
+      "chinese": "丁",
+      "korean": "정",
+      "tenStar": "편재",
+      "fiveCircleColor": "#C23030",
+      "fiveCircleFrontColor": "#ffffff"
+    },
+    "yearGround": {
+      "chinese": "丑",
+      "korean": "축",
+      "tenStar": "편관",
+      "sinsal": "화개살",
+      "unsung": "관대",
+      "fiveCircleColor": "#c8a522",
+      "fiveCircleFrontColor": "#ffffff"
+    },
+    "monthSky": {
+      "chinese": "丁",
+      "korean": "정",
+      "tenStar": "편재",
+      "fiveCircleColor": "#C23030",
+      "fiveCircleFrontColor": "#ffffff"
+    },
+    "monthGround": {
+      "chinese": "未",
+      "korean": "미",
+      "tenStar": "편관",
+      "sinsal": "월살",
+      "unsung": "묘",
+      "fiveCircleColor": "#c8a522",
+      "fiveCircleFrontColor": "#ffffff"
+    },
+    "daySky": {
+      "chinese": "癸",
+      "korean": "계",
+      "tenStar": "비견",
+      "fiveCircleColor": "#3a3b36",
+      "fiveCircleFrontColor": "#ffffff"
+    },
+    "dayGround": {
+      "chinese": "酉",
+      "korean": "유",
+      "tenStar": "편인",
+      "sinsal": "장성살",
+      "unsung": "병",
+      "etcSinsal": ["문곡귀인"],
+      "fiveCircleColor": "#a3a3a3",
+      "fiveCircleFrontColor": "#ffffff"
+    },
+    "timeSky": {
+      "chinese": "癸",
+      "korean": "계",
+      "fiveCircle": "수",
+      "fiveCircleColor": "#3a3b36",
+      "fiveCircleFrontColor": "#ffffff",
+      "tenStar": "비견",
+      "minusPlus": "음"
+    },
+  "timeGround": {
+      "chinese": "亥",
+      "korean": "해",
+      "fiveCircle": "수",
+      "fiveCircleColor": "#3a3b36",
+      "fiveCircleFrontColor": "#ffffff",
+      "tenStar": "겁재",
+      "minusPlus": "음",
+      "sinsal": "역마살",
+      "unsung": "제왕",
+      "etcSinsal": []
+    }
+  }
+}
